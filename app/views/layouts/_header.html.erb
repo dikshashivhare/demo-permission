@@ -1,0 +1,46 @@
+<nav class="navbar navbar-expand-lg navbar-light" >
+  <a class="navbar-brand logo-text" href="#">Demo Permission</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+       <%= link_to "Home", home_index_path, class: "nav-link" %>
+      </li>
+    
+    
+      <li class="nav-item">
+
+         <%= link_to "Contact", home_contact_path, class: "nav-link" %>
+         
+      </li>
+      <li class="nav-item">
+       
+         <%= link_to "About", home_about_path, class: "nav-link" %>
+      </li>
+       <% if current_user.try(:admin?) %>
+         <li class="nav-item">
+          <%= link_to "Privilege", home_privilege_path, class: "nav-link" %>
+        </li>
+      <% end %>
+    </ul>
+
+
+
+    <ul class="navbar-nav my-lg-0" >
+     <% if user_signed_in? %>
+        <li>
+          <%= link_to('Logout', destroy_user_session_path, class: "btn btn-secondary", method: :delete) %>        
+        </li>
+
+        <% else %>
+        <li><%= link_to "Sign up", new_user_registration_path, class: "btn btn-secondary", :style =>"margin-right:20px" %></li>
+        <li>
+          <%= link_to 'Login', new_user_session_path,class: "btn btn-secondary" %>  
+        </li>
+      <% end %> 
+    </ul>
+  </div>
+</nav>

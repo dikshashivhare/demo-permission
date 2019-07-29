@@ -1,0 +1,92 @@
+<div class="container">
+             
+  <table class="table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Employee</th>
+        <th>Manager</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+
+      <% Page.order(:page_name).each do |page| %>
+        <tr>
+          <td><%= page.page_name.titleize %></td>
+          <td>
+            <% if page.access_to_employee %>
+              <input type="checkbox" class="access_check" data-page-id="<%= page.id %>" data-role-name="employee" checked >
+            <% else %>
+              <input type="checkbox" class="access_check" data-page-id="<%= page.id %>" data-role-name="employee">
+            <% end %>
+          </td>
+          <td>
+            <% if page.access_to_manager %>
+              <input type="checkbox" class="access_check" data-page-id="<%= page.id %>" data-role-name="manager" checked >
+            <% else %>
+              <input type="checkbox" class="access_check" data-page-id="<%= page.id %>" data-role-name="manager">
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+
+      <!-- <tr>
+        <td>Home</td>
+
+        <td> <input type="checkbox" class="form-check-input" value="home[:employee]"  data-page_name= "home" data-user_role= "employee" id="materialUnchecked"></td>
+
+        <td> <input type="checkbox" class="form-check-input" value="home[:manager]"
+         data-page_name= "home" data-user_role= "manager" id="materialUnchecked"></td>
+       
+      </tr>
+      <tr>
+        <td>About</td>
+        <td> <input type="checkbox" class="form-check-input" value="about[:employee]"  data-page_name= "about" data-user_role= "employee" id="materialUnchecked"></td>
+        <td> <input type="checkbox" class="form-check-input" value="about[:manager]" data-page_name= "about" data-user_role= "manager" id="materialUnchecked"></td>
+       
+      </tr>
+      <tr>
+        <td>Contact</td>
+        <td> <input type="checkbox" class="form-check-input"  value="contact[:employee]" data-page_name= "contact" data-user_role= "employee" id="materialUnchecked"></td>
+        <td> <input type="checkbox" class="form-check-input" value="contact[:manager]"  data-page_name= "contact" data-user_role= "manager" id="materialUnchecked"></td>
+       
+      </tr> -->
+    </tbody>
+  </table>
+</div>
+<script>
+  
+//   $(".form-check-input").change(function() {
+//     var checked = $(this).is(':checked');
+//     var page_name = $(this).data('page_name');
+//     var user_role = $(this).data('user_role');
+//   $.ajax({
+//       url: "role_permission_privilage",
+//       type: "get",
+//       data: {checked: checked, page_name: page_name, user_role: user_role},
+//       success: function (data) { 
+          
+//       }
+//   });
+// });
+
+
+  $(document).ready(function(){
+    $('.access_check').on('click', function(){
+      var accessToEmp = $(this).prop("checked");
+      var pageId = $(this).data("page-id");
+      var roleName = $(this).data("role-name");
+      $.ajax({
+        url: '/set_access_permissions', 
+        method: 'GET', 
+        data: {
+          access_allowed: accessToEmp, 
+          page_id: pageId, 
+          role: roleName
+        }
+      });
+    });
+  });
+
+</script>
